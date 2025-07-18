@@ -1,9 +1,12 @@
 import './App.css'
+import Background from './Background'
 
 function App() {
   return (
     <>
-      <p>Fick Sucker </p>
+      <Background>
+        <p> Hi </p>
+      </Background>
     </>
   )
 }
