@@ -3,18 +3,20 @@ import woodenSpoon from '../assets/wooden-spoon.webp';
 import styles from './Spoon.module.css';
 import Draggable from 'react-draggable';
 
-export default function WoodenSpoon() {
+export default function Spoon() {
     const nodeRef = useRef(null);
 
     return (
         <Draggable
             nodeRef={nodeRef}
-            defaultClassName={ styles.spoon }
-            handle='spoonSVG'
+            handle='.handle'
         >
-            <div>
-                <svg xmlns='http://www.w3.org/2000/svg' id='spoonSVG'>
-                    <path fill='black' stroke='black' stroke-width='1' 
+            <div className={`${ styles.relative } `} ref={ nodeRef }>
+                <div className={`${ styles.absolute } ${ styles.setHeightAndWidth }`} >
+                    <img src={ woodenSpoon } alt="wooden spoon" className={ styles.img }/>
+                    
+                    <svg xmlns='http://www.w3.org/2000/svg' id='spoonSVG' className={`${ styles.absolute }`} viewBox='0 0 648 604'>
+                        <path className={`${ styles.handle } handle`} fill='transparent'
                         d='M 105.00,410.00
                         C 106.73,400.77 112.10,394.27 117.82,387.27
                         130.64,371.59 153.43,360.15 173.00,355.52
@@ -41,9 +43,10 @@ export default function WoodenSpoon() {
                         160.00,458.30 153.63,437.61 138.00,422.00
                         133.60,417.62 129.83,414.46 124.00,412.09
                         117.26,409.36 112.06,410.00 105.00,410.00 Z' />
-                </svg>
-                <img src={ woodenSpoon } alt="Wooden Spoon" ref={ nodeRef } draggable='false'/>
+                    </svg>
+                </div>
             </div>
+
         </Draggable>
     )
 }

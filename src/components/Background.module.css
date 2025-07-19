@@ -1,4 +1,5 @@
 .background {
     background-color: aqua;
     height: 100%;
+    overflow: hidden;
 }

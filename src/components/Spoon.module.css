@@ -1,3 +1,37 @@
 .spoon {
+    flex: 1;
+}
+
+.flexDiv {
+    display: flex;
+}
+
+.absolute {
     position: absolute;
+    top: 0;
+    left: 0;
+    height: auto;
+    width: 100%;
+}
+
+.relative {
+    position: relative;
+}
+
+.svg {
+    height: 100%;
+}
+
+.handle {
+    cursor: grab;
+}
+
+.img {
+    width: 100%;
+    height: auto;
+}
+
+.setHeightAndWidth {
+    height: 1280px;
+    width: 720px;
 }
