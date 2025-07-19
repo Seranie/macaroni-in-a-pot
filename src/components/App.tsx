@@ -1,11 +1,14 @@
 import './App.css'
 import Background from './Background'
+import Pot from './Pot';
+import WoodenSpoon from './Spoon';
 
 function App() {
   return (
     <>
       <Background>
-        <p> Hi </p>
+        <WoodenSpoon />
+        <Pot />
       </Background>
     </>
   )
