@@ -1,0 +1,11 @@
+.pot {
+    width: 100%;
+    max-width: 40vw;
+    height: auto;
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

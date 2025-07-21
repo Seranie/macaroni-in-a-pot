@@ -10,8 +10,6 @@
     position: absolute;
     top: 0;
     left: 0;
-    height: auto;
-    width: 100%;
 }
 
 .relative {
@@ -31,7 +29,8 @@
     height: auto;
 }
 
-.setHeightAndWidth {
-    height: 1280px;
-    width: 720px;
+.absoluteDiv {
+    width: 100%;
+    max-width: 22vw;
+    height: auto;
 }

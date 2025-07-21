@@ -7,14 +7,10 @@ export default function Spoon() {
     const nodeRef = useRef(null);
 
     return (
-        <Draggable
-            nodeRef={nodeRef}
-            handle='.handle'
-        >
-            <div className={`${ styles.relative } `} ref={ nodeRef }>
-                <div className={`${ styles.absolute } ${ styles.setHeightAndWidth }`} >
-                    <img src={ woodenSpoon } alt="wooden spoon" className={ styles.img }/>
-                    
+        <Draggable nodeRef={nodeRef} handle='.handle'>
+                <div className={`${ styles.absolute } ${ styles.absoluteDiv }`} ref={ nodeRef }>
+                    <img src={ woodenSpoon } alt="wooden spoon" className={ styles.img } width='645' height='604'/>
+
                     <svg xmlns='http://www.w3.org/2000/svg' id='spoonSVG' className={`${ styles.absolute }`} viewBox='0 0 648 604'>
                         <path className={`${ styles.handle } handle`} fill='transparent'
                         d='M 105.00,410.00
@@ -45,8 +41,6 @@ export default function Spoon() {
                         117.26,409.36 112.06,410.00 105.00,410.00 Z' />
                     </svg>
                 </div>
-            </div>
-
         </Draggable>
     )
 }
