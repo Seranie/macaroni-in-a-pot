@@ -1,23 +1,21 @@
-.spoon {
-    flex: 1;
-}
-
-.flexDiv {
-    display: flex;
-}
-
 .absolute {
     position: absolute;
     top: 0;
     left: 0;
 }
 
-.relative {
-    position: relative;
+.absoluteDiv {
+    width: 100%;
+    max-width: 650vw;
+    height: auto;
 }
 
-.svg {
-    height: 100%;
+@media (min-width: 768px){
+    .absoluteDiv {
+        width: 100%;
+        max-width: 20vw;
+        height: auto;
+    }    
 }
 
 .handle {
@@ -26,11 +24,5 @@
 
 .img {
     width: 100%;
-    height: auto;
-}
-
-.absoluteDiv {
-    width: 100%;
-    max-width: 22vw;
     height: auto;
 }
