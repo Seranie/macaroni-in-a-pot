@@ -1,16 +1,27 @@
-import { useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import woodenSpoon from '../assets/wooden-spoon.webp';
 import styles from './Spoon.module.css';
 import Draggable from 'react-draggable';
+import type { potRefType } from './types';
 
-export default function Spoon() {
-    const nodeRef = useRef(null);
+export default function Spoon({ potRef }: potRefType) {
+    const nodeRef = useRef(null); //for Draggable use
+    const [ positionState, setPositionState ] = useState({ x: 0, y:0 }); //position state to be used to calculate spoon's position
+    console.log(positionState);
+
+    useEffect(() => {
+        if (potRef.current) {
+            const { left, top, bottom, right } = potRef.current.getBoundingClientRect();
+            const center = { x: right - left, y: bottom - top };
+            setPositionState(center);
+        }
+    }, [potRef.current])
 
     return (
         <Draggable
-            nodeRef={nodeRef}
+            nodeRef={ nodeRef }
             handle='.handle'
-             //TODO: change to dynamic values
+            defaultPosition= { positionState }
         >
             <div className={`${ styles.absolute } ${ styles.absoluteDiv }`} ref={ nodeRef }>
 
