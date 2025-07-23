@@ -12,7 +12,8 @@ export default function Spoon({ potRef }: potRefType) {
     useEffect(() => {
         if (potRef.current) {
             const { left, top, bottom, right } = potRef.current.getBoundingClientRect();
-            const center = { x: right - left, y: bottom - top };
+            console.log(left, top, bottom, right);
+            const center = { x: left + (right - left) / 2, y: top + (bottom - top) / 2 };
             setPositionState(center);
         }
     }, [potRef.current])
@@ -21,7 +22,10 @@ export default function Spoon({ potRef }: potRefType) {
         <Draggable
             nodeRef={ nodeRef }
             handle='.handle'
-            defaultPosition= { positionState }
+            position= { positionState }
+            onDrag={(_e, data) => {
+                setPositionState({ x: data.x, y: data.y});
+            }}
         >
             <div className={`${ styles.absolute } ${ styles.absoluteDiv }`} ref={ nodeRef }>
 
