@@ -1,19 +1,19 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import woodenSpoon from '../assets/wooden-spoon.webp';
 import styles from './Spoon.module.css';
 import Draggable from 'react-draggable';
 import type { potRefType } from './types';
 
 export default function Spoon({ potRef }: potRefType) {
-    const nodeRef = useRef(null); //for Draggable use
+    const nodeRef = useRef<HTMLDivElement>(null); //for Draggable use
     const [ positionState, setPositionState ] = useState({ x: 0, y:0 }); //position state to be used to calculate spoon's position
-    console.log(positionState);
 
     useEffect(() => {
         if (potRef.current) {
-            const { left, top, bottom, right } = potRef.current.getBoundingClientRect();
-            console.log(left, top, bottom, right);
-            const center = { x: left + (right - left) / 2, y: top + (bottom - top) / 2 };
+            // places the bottom-left point of spoon into pot
+            const { height: spoonHeight } = nodeRef.current!.getBoundingClientRect();
+            const { left, top, width, height } = potRef.current.getBoundingClientRect();
+            const center = { x: left + (width / 2), y: (top + (height / 2)) - spoonHeight };
             setPositionState(center);
         }
     }, [potRef.current])
