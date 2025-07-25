@@ -2,19 +2,22 @@ import { useEffect, useRef, useState } from 'react';
 import woodenSpoon from '../assets/wooden-spoon.webp';
 import styles from './Spoon.module.css';
 import Draggable from 'react-draggable';
-import type { potRefType } from './types';
+import type { circleCenterType, potRefType } from './types';
 
 export default function Spoon({ potRef }: potRefType) {
     const nodeRef = useRef<HTMLDivElement>(null); //for Draggable use
     const [ positionState, setPositionState ] = useState({ x: 0, y:0 }); //position state to be used to calculate spoon's position
+    const [ potBoundaryRadius, setPotBoundaryRadius ] = useState<number | null>(null);
 
+    let circleCenter: circleCenterType;
     useEffect(() => {
         if (potRef.current) {
             // places the bottom-left point of spoon into pot
             const { height: spoonHeight } = nodeRef.current!.getBoundingClientRect();
             const { left, top, width, height } = potRef.current.getBoundingClientRect();
-            const center = { x: left + (width / 2), y: (top + (height / 2)) - spoonHeight };
-            setPositionState(center);
+            circleCenter = { x: left + (width / 2), y: top + (height / 2) };
+            setPositionState({...circleCenter, y: circleCenter.y - spoonHeight}); // subtracts center.y by spoonHeight so that spoon bottom-left is at center of pot
+            setPotBoundaryRadius(width/2);
         }
     }, [potRef.current])
 
@@ -24,7 +27,11 @@ export default function Spoon({ potRef }: potRefType) {
             handle='.handle'
             position= { positionState }
             onDrag={(_e, data) => {
-                setPositionState({ x: data.x, y: data.y});
+                if (potBoundaryRadius !== null && circleCenter !== undefined){
+                    if ((data.x - circleCenter.x) ** 2 + (data.y - circleCenter.y) ** 2 <= potBoundaryRadius ** 2) {
+                        setPositionState({ x: data.x, y: data.y});
+                    }
+                }
             }}
         >
             <div className={`${ styles.absolute } ${ styles.absoluteDiv }`} ref={ nodeRef }>

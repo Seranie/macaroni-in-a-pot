@@ -18,3 +18,8 @@
     align-items: center;
     justify-content: center;
 }
+
+.absolute {
+    position: absolute;
+    z-index: -1;
+}

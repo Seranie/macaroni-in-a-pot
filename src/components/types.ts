@@ -1,5 +1,10 @@
 import type { RefObject } from "react";
 
 export interface potRefType {
-    potRef: RefObject<HTMLImageElement | null>;
+    potRef: RefObject<SVGPathElement | null>;
+}
+
+export interface circleCenterType {
+    x: number;
+    y: number;
 }
