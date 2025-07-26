@@ -4,11 +4,6 @@ export interface potRefType {
     potRef: RefObject<SVGPathElement | null>;
 }
 
-export interface circleCenterType {
-    x: number;
-    y: number;
-}
-
 export interface boundaryType {
     width: number;
     height: number;

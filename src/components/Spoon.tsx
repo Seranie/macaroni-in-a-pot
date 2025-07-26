@@ -3,6 +3,7 @@ import woodenSpoon from '../assets/wooden-spoon.webp';
 import styles from './Spoon.module.css';
 import { DraggableCore } from 'react-draggable';
 import { type boundaryType, type potRefType } from './types';
+import { limit } from './utils';
 
 export default function Spoon({ potRef }: potRefType) {
     //Refs
@@ -40,15 +41,13 @@ export default function Spoon({ potRef }: potRefType) {
             nodeRef={ nodeRef }
             handle='.handle'
             onDrag={(_e, data) => {
-                
-                setPositionState({x: positionState.x + data.deltaX, y: positionState.y + data.deltaY});
-                // if (potBoundaryRadius !== null && circleCenter !== undefined){
-                    
-                //     if ((data.x - circleCenter.x) ** 2 + (data.y - circleCenter.y) ** 2 <= potBoundaryRadius ** 2) {
-                //         console.log("HI");
-                //         setPositionState({ x: data.x, y: data.y});
-                //     }
-                // }
+                if (boundary !== null) {
+                    const { left, top, width, height } = spoonBoundaryRef.current!.getBoundingClientRect();
+                    const center = { x: left + width / 2, y: top + height / 2};
+                    const result = limit(center.x + data.deltaX, center.y + data.deltaY, boundary);
+                    const clampedDelta = { x: result.x - center.x, y: result.y - center.y };
+                    setPositionState({ x: positionState.x + clampedDelta.x, y: positionState.y + clampedDelta.y });
+                }
             }}
         >
             <div className={`${ styles.absolute } ${ styles.absoluteDiv }`} ref={ nodeRef }>
