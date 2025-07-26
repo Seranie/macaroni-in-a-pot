@@ -5,8 +5,9 @@ import Draggable, { DraggableCore } from 'react-draggable';
 import type { circleCenterType, potRefType } from './types';
 
 export default function Spoon({ potRef }: potRefType) {
-    //for Draggable use
+    //Refs
     const nodeRef = useRef<HTMLDivElement>(null);
+    const spoonBoundaryRef = useRef<SVGPathElement>(null);
 
     // states
     const [ positionState, setPositionState ] = useState({ x: 0, y:0 }); //position state to be used to calculate spoon's position
@@ -47,9 +48,14 @@ export default function Spoon({ potRef }: potRefType) {
             }}
         >
             <div className={`${ styles.absolute } ${ styles.absoluteDiv }`} ref={ nodeRef }>
-
+                <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 645 604' className={ styles.absolute }>
+                    <path id='Selection' fill='transparent' ref={ spoonBoundaryRef }
+                        d='M 174.31,406.04
+                        C 181.76,403.82 182.06,411.91 177.86,413.34
+                        174.30,414.56 169.97,410.73 174.31,406.04 Z' />
+                </svg>
                 <img src={ woodenSpoon } alt="wooden spoon" className={ styles.img } width='645' height='604'/>
-                <svg xmlns='http://www.w3.org/2000/svg' id='spoonSVG' className={`${ styles.absolute }`} viewBox='0 0 648 604'>
+                <svg xmlns='http://www.w3.org/2000/svg' id='spoonSVG' className={ styles.absolute } viewBox='0 0 648 604'>
                     <path className={`${ styles.handle } handle`} fill='transparent'
                     d='M 105.00,410.00
                     C 106.73,400.77 112.10,394.27 117.82,387.27
