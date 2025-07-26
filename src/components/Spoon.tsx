@@ -35,6 +35,8 @@ export default function Spoon({ potRef }: potRefType) {
             nodeRef={ nodeRef }
             handle='.handle'
             onDrag={(_e, data) => {
+                
+                setPositionState({x: positionState.x + data.deltaX, y: positionState.y + data.deltaY});
                 // if (potBoundaryRadius !== null && circleCenter !== undefined){
                     
                 //     if ((data.x - circleCenter.x) ** 2 + (data.y - circleCenter.y) ** 2 <= potBoundaryRadius ** 2) {
