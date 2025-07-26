@@ -1,15 +1,19 @@
 import { useEffect, useRef, useState } from 'react';
 import woodenSpoon from '../assets/wooden-spoon.webp';
 import styles from './Spoon.module.css';
-import Draggable from 'react-draggable';
+import Draggable, { DraggableCore } from 'react-draggable';
 import type { circleCenterType, potRefType } from './types';
 
 export default function Spoon({ potRef }: potRefType) {
-    const nodeRef = useRef<HTMLDivElement>(null); //for Draggable use
+    //for Draggable use
+    const nodeRef = useRef<HTMLDivElement>(null);
+
+    // states
     const [ positionState, setPositionState ] = useState({ x: 0, y:0 }); //position state to be used to calculate spoon's position
     const [ potBoundaryRadius, setPotBoundaryRadius ] = useState<number | null>(null);
     const [ circleCenter, setCircleCenter ] = useState<circleCenterType>({ x:0, y:0 });
 
+    // effects
     useEffect(() => {
         if (potRef.current) {
             // places the bottom-left point of spoon into pot
@@ -21,21 +25,23 @@ export default function Spoon({ potRef }: potRefType) {
         }
     }, [potRef.current])
 
+    // Sets spoon's initial position on mount
+    useEffect(() => {
+        nodeRef.current!.style.translate = `${positionState.x}px ${positionState.y}px`;
+    }, [positionState])
+
     return (
-        <Draggable
+        <DraggableCore
             nodeRef={ nodeRef }
             handle='.handle'
-            position= { positionState }
             onDrag={(_e, data) => {
-                console.log(potBoundaryRadius);
-                console.log(circleCenter);
-                if (potBoundaryRadius !== null && circleCenter !== undefined){
+                // if (potBoundaryRadius !== null && circleCenter !== undefined){
                     
-                    if ((data.x - circleCenter.x) ** 2 + (data.y - circleCenter.y) ** 2 <= potBoundaryRadius ** 2) {
-                        console.log("HI");
-                        setPositionState({ x: data.x, y: data.y});
-                    }
-                }
+                //     if ((data.x - circleCenter.x) ** 2 + (data.y - circleCenter.y) ** 2 <= potBoundaryRadius ** 2) {
+                //         console.log("HI");
+                //         setPositionState({ x: data.x, y: data.y});
+                //     }
+                // }
             }}
         >
             <div className={`${ styles.absolute } ${ styles.absoluteDiv }`} ref={ nodeRef }>
@@ -72,6 +78,6 @@ export default function Spoon({ potRef }: potRefType) {
                 </svg>
 
             </div>
-        </Draggable>
+        </DraggableCore>
     )
 }
