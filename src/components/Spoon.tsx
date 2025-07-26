@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import woodenSpoon from '../assets/wooden-spoon.webp';
 import styles from './Spoon.module.css';
-import Draggable, { DraggableCore } from 'react-draggable';
-import type { circleCenterType, potRefType } from './types';
+import { DraggableCore } from 'react-draggable';
+import { type boundaryType, type potRefType } from './types';
 
 export default function Spoon({ potRef }: potRefType) {
     //Refs
@@ -11,20 +11,24 @@ export default function Spoon({ potRef }: potRefType) {
 
     // states
     const [ positionState, setPositionState ] = useState({ x: 0, y:0 }); //position state to be used to calculate spoon's position
-    const [ potBoundaryRadius, setPotBoundaryRadius ] = useState<number | null>(null);
-    const [ circleCenter, setCircleCenter ] = useState<circleCenterType>({ x:0, y:0 });
+    const [ boundary, setBoundary ] = useState<boundaryType | null>(null);
 
     // effects
     useEffect(() => {
         if (potRef.current) {
             // places the bottom-left point of spoon into pot
-            const { height: spoonHeight } = nodeRef.current!.getBoundingClientRect();
             const { left, top, width, height } = potRef.current.getBoundingClientRect();
-            setCircleCenter({ x: left + (width / 2), y: top + (height / 2) });
-            setPositionState({...circleCenter, y: circleCenter.y - spoonHeight}); // subtracts center.y by spoonHeight so that spoon bottom-left is at center of pot
-            setPotBoundaryRadius(width/2);
+            setBoundary({ width: width, top:top, left: left, height: height, center: [left + (width / 2), top + (height / 2)], radius: (width / 2) });
+            
         }
     }, [potRef.current])
+
+    useEffect(() =>{
+        if (boundary !== null){
+            const { height: spoonHeight } = nodeRef.current!.getBoundingClientRect();
+            setPositionState({x: boundary.center[0], y: boundary.center[1] - spoonHeight}); // subtracts center.y by spoonHeight so that spoon bottom-left is at center of pot
+        }
+    }, [boundary])
 
     // Sets spoon's initial position on mount
     useEffect(() => {

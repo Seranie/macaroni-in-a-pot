@@ -8,3 +8,12 @@ export interface circleCenterType {
     x: number;
     y: number;
 }
+
+export interface boundaryType {
+    width: number;
+    height: number;
+    top: number;
+    left: number;
+    center: Array<number>;
+    radius: number;
+}
