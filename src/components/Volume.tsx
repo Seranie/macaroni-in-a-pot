@@ -9,30 +9,41 @@ export default function Volume({ macaroniRef, stirringRef }: AudioProps) {
 
     //States
     const [ showing, setShowing ] = useState<boolean>(false);
+    const [ textContent, setTextContent ] = useState<string>('');
+    const [ volumeValue, setVolumeValue ] = useState<string>('');
+    
+    //Functions
+    function changeHandler(e: React.ChangeEvent<HTMLInputElement>) {
+        // .volume takes in a float!
+        let volume = e.target.valueAsNumber;
+        let volumeString = e.target.value;
+
+        macaroniRef.current!.volume = volume / 100;
+        stirringRef.current!.volume = volume / 100;
+
+        setVolumeValue(volumeString)
+        setTextContent(volumeString);
+
+        localStorage.setItem('audioVolume', volumeString);
+    }
 
     useEffect(() => {
-        volumeRef.current!.addEventListener('input', (e) => {
-            // .volume takes in a float!
-            macaroniRef.current!.volume = volumeRef.current!.valueAsNumber / 100;
-            stirringRef.current!.volume = volumeRef.current!.valueAsNumber / 100;
-            labelRef.current!.textContent = `${ volumeRef.current!.value }%`;
-        });
-
-        volumeRef.current!.addEventListener('change', (e) => {
-            localStorage.setItem('audioVolume', (volumeRef.current!.valueAsNumber).toString());
-        });
-        
-        volumeRef.current!.addEventListener('mousedown', (e) => {
+        volumeRef.current!.addEventListener('mousedown', () => {
             setShowing(true);
         });
 
-        volumeRef.current!.addEventListener('mouseup', (e) => {
+        volumeRef.current!.addEventListener('mouseup', () => {
             setShowing(false);
         });
 
-        let volumeString = localStorage.getItem('audioVolume');
-        if (volumeString !== null) {
-            volumeRef.current!.value = volumeString;
+        let storedVolumeString = localStorage.getItem('audioVolume'); //TODO: change to async?
+        if (storedVolumeString !== null) {
+            setVolumeValue(storedVolumeString);
+            setTextContent(storedVolumeString);
+        } else {
+            let volumeString = volumeRef.current!.value;
+            setVolumeValue(volumeString);
+            setTextContent(volumeString);
         }
     }, []);
 
@@ -43,8 +54,8 @@ export default function Volume({ macaroniRef, stirringRef }: AudioProps) {
                 <path d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.48 5.48 0 0 1 11.025 8a5.48 5.48 0 0 1-1.61 3.89z"/>
                 <path d="M10.025 8a4.5 4.5 0 0 1-1.318 3.182L8 10.475A3.5 3.5 0 0 0 9.025 8c0-.966-.392-1.841-1.025-2.475l.707-.707A4.5 4.5 0 0 1 10.025 8M7 4a.5.5 0 0 0-.812-.39L3.825 5.5H1.5A.5.5 0 0 0 1 6v4a.5.5 0 0 0 .5.5h2.325l2.363 1.89A.5.5 0 0 0 7 12zM4.312 6.39 6 5.04v5.92L4.312 9.61A.5.5 0 0 0 4 9.5H2v-3h2a.5.5 0 0 0 .312-.11"/>
             </svg>
-            <input type="range" min="0" max="100" id="volumeSlider" ref={ volumeRef }/>
-            <label htmlFor="volumeSlider" ref={ labelRef } className={ `${ styles.labelStyle } ${ showing ? styles.showing : '' }` }></label>
+            <input type="range" min="0" max="100" id="volumeSlider" ref={ volumeRef } value={ volumeValue } onChange={ changeHandler }/>
+            <label htmlFor="volumeSlider" ref={ labelRef } className={ `${ styles.labelStyle } ${ showing ? styles.showing : '' }` }>{`${ textContent }%`}</label>
         </div>
     )
 }
