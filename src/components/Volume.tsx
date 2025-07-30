@@ -11,6 +11,15 @@ export default function Volume({ macaroniRef, stirringRef }: AudioProps) {
             macaroniRef.current!.volume = volumeRef.current!.valueAsNumber / 100;
             stirringRef.current!.volume = volumeRef.current!.valueAsNumber / 100;
         });
+
+        volumeRef.current!.addEventListener('change', (e) => {
+            localStorage.setItem('audioVolume', (volumeRef.current!.valueAsNumber).toString());
+        });
+
+        let volumeString = localStorage.getItem('audioVolume');
+        if (volumeString !== null) {
+            volumeRef.current!.value = volumeString;
+        }
     }, []);
 
     return (
