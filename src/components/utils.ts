@@ -1,4 +1,4 @@
-import type { boundaryType } from "./types";
+import type { AudioProps, boundaryType } from "./types";
 
 export function limit(x: number, y: number, boundary: boundaryType): {x: number, y: number} {
     var dist = distance([x, y], boundary.center);
@@ -22,4 +22,9 @@ export function distance(dot1: Array<number>, dot2: Array<number>): number {
         x2 = dot2[0],
         y2 = dot2[1];
     return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+}
+
+export function playAudio({ macaroniRef, stirringRef }: AudioProps){
+    macaroniRef.current?.play();
+    stirringRef.current?.play();
 }

@@ -2,10 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 import woodenSpoon from '../assets/wooden-spoon.webp';
 import styles from './Spoon.module.css';
 import { DraggableCore } from 'react-draggable';
-import { type boundaryType, type potRefType } from './types';
+import { type boundaryType, type SpoonProps } from './types';
 import { limit } from './utils';
 
-export default function Spoon({ potRef }: potRefType) {
+export default function Spoon({ potRef, macaroniRef, stirringRef }: SpoonProps) {
     //Refs
     const nodeRef = useRef<HTMLDivElement>(null);
     const spoonBoundaryRef = useRef<SVGPathElement>(null);
@@ -40,6 +40,10 @@ export default function Spoon({ potRef }: potRefType) {
         <DraggableCore
             nodeRef={ nodeRef }
             handle='.handle'
+            onStart={(_e, _data) => {
+                macaroniRef.current?.play();
+                stirringRef.current?.play();
+            }}
             onDrag={(_e, data) => {
                 if (boundary !== null) {
                     const { left, top, width, height } = spoonBoundaryRef.current!.getBoundingClientRect();
@@ -48,6 +52,10 @@ export default function Spoon({ potRef }: potRefType) {
                     const clampedDelta = { x: result.x - center.x, y: result.y - center.y };
                     setPositionState({ x: positionState.x + clampedDelta.x, y: positionState.y + clampedDelta.y });
                 }
+            }}
+            onStop={(_e, _data) => {
+                macaroniRef.current?.pause();
+                stirringRef.current?.pause();
             }}
         >
             <div className={`${ styles.absolute } ${ styles.absoluteDiv }`} ref={ nodeRef }>

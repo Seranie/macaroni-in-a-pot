@@ -12,3 +12,10 @@ export interface boundaryType {
     center: Array<number>;
     radius: number;
 }
+
+export interface AudioProps {
+    macaroniRef: RefObject<HTMLAudioElement | null>;
+    stirringRef: RefObject<HTMLAudioElement | null>;
+}
+
+export type SpoonProps = potRefType & AudioProps;
