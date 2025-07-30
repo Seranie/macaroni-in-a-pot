@@ -1,19 +1,33 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './Volume.module.css';
 import type { AudioProps } from './types';
 
 export default function Volume({ macaroniRef, stirringRef }: AudioProps) {
+    // Refs
     const volumeRef = useRef<HTMLInputElement>(null);
+    const labelRef = useRef<HTMLLabelElement>(null);
+
+    //States
+    const [ showing, setShowing ] = useState<boolean>(false);
 
     useEffect(() => {
         volumeRef.current!.addEventListener('input', (e) => {
             // .volume takes in a float!
             macaroniRef.current!.volume = volumeRef.current!.valueAsNumber / 100;
             stirringRef.current!.volume = volumeRef.current!.valueAsNumber / 100;
+            labelRef.current!.textContent = `${ volumeRef.current!.value }%`;
         });
 
         volumeRef.current!.addEventListener('change', (e) => {
             localStorage.setItem('audioVolume', (volumeRef.current!.valueAsNumber).toString());
+        });
+        
+        volumeRef.current!.addEventListener('mousedown', (e) => {
+            setShowing(true);
+        });
+
+        volumeRef.current!.addEventListener('mouseup', (e) => {
+            setShowing(false);
         });
 
         let volumeString = localStorage.getItem('audioVolume');
@@ -30,6 +44,7 @@ export default function Volume({ macaroniRef, stirringRef }: AudioProps) {
                 <path d="M10.025 8a4.5 4.5 0 0 1-1.318 3.182L8 10.475A3.5 3.5 0 0 0 9.025 8c0-.966-.392-1.841-1.025-2.475l.707-.707A4.5 4.5 0 0 1 10.025 8M7 4a.5.5 0 0 0-.812-.39L3.825 5.5H1.5A.5.5 0 0 0 1 6v4a.5.5 0 0 0 .5.5h2.325l2.363 1.89A.5.5 0 0 0 7 12zM4.312 6.39 6 5.04v5.92L4.312 9.61A.5.5 0 0 0 4 9.5H2v-3h2a.5.5 0 0 0 .312-.11"/>
             </svg>
             <input type="range" min="0" max="100" id="volumeSlider" ref={ volumeRef }/>
+            <label htmlFor="volumeSlider" ref={ labelRef } className={ `${ styles.labelStyle } ${ showing ? styles.showing : '' }` }></label>
         </div>
     )
 }
