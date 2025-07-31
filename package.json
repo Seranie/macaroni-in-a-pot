@@ -1,6 +1,7 @@
 {
   "name": "cheese",
   "private": true,
+  "homepage": "https://seranie.github.io/macaroni-in-a-pot/",
   "version": "0.0.0",
   "type": "module",
   "scripts": {

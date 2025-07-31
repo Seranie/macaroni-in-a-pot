@@ -9,4 +9,5 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: './tests/setup.js',
   },
+  base: '/macaroni-in-a-pot/',
 })
