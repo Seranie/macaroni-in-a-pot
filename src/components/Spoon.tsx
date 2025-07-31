@@ -18,10 +18,8 @@ export default function Spoon({ potRef, macaroniRef, stirringRef }: SpoonProps) 
     // effects
     useEffect(() => {
         if (potRef.current) {
-            // places the bottom-left point of spoon into pot
             const { left, top, width, height } = potRef.current.getBoundingClientRect();
             setBoundary({ width: width, top:top, left: left, height: height, center: [left + (width / 2), top + (height / 2)], radius: (width / 2) });
-            
         }
     }, [potRef.current])
 

@@ -16,10 +16,10 @@ export default function Audio({ macaroniRef, stirringRef }: AudioProps){
     return (
         <>
             <audio loop ref={ macaroniRef }>
-                <source src="../../macaroni.flac" type="audio/flac" />
+                <source src="./macaroni.flac" type="audio/flac" />
             </audio>
             <audio loop ref={ stirringRef }>
-                <source src="../../stirring-macaroni-and-cheese.mp3" type="audio/mpeg" />
+                <source src="./stirring-macaroni-and-cheese.mp3" type="audio/mpeg" />
             </audio>
         </>
     )
