@@ -3,12 +3,13 @@ import woodenSpoon from '../assets/wooden-spoon.webp';
 import styles from './Spoon.module.css';
 import { DraggableCore } from 'react-draggable';
 import { type boundaryType, type SpoonProps } from './types';
-import { limit } from './utils';
+import { createSpeedCalculator, limit } from './utils';
 
 export default function Spoon({ potRef, macaroniRef, stirringRef }: SpoonProps) {
     //Refs
     const nodeRef = useRef<HTMLDivElement>(null);
     const spoonBoundaryRef = useRef<SVGPathElement>(null);
+    const rateRef = useRef<Function>(createSpeedCalculator());
 
     // states
     const [ positionState, setPositionState ] = useState({ x: 0, y:0 }); //position state to be used to calculate spoon's position
@@ -31,8 +32,8 @@ export default function Spoon({ potRef, macaroniRef, stirringRef }: SpoonProps) 
         }
     }, [boundary])
 
-    // Sets spoon's initial position on mount
     useEffect(() => {
+        // Sets spoon's initial position on mount
         nodeRef.current!.style.translate = `${positionState.x}px ${positionState.y}px`;
     }, [positionState])
 
@@ -51,6 +52,9 @@ export default function Spoon({ potRef, macaroniRef, stirringRef }: SpoonProps) 
                     const result = limit(center.x + data.deltaX, center.y + data.deltaY, boundary);
                     const clampedDelta = { x: result.x - center.x, y: result.y - center.y };
                     setPositionState({ x: positionState.x + clampedDelta.x, y: positionState.y + clampedDelta.y });
+                }
+                if (macaroniRef.current) {
+                    macaroniRef.current.playbackRate = rateRef.current(data.deltaX, data.deltaY);
                 }
             }}
             onStop={(_e, _data) => {
