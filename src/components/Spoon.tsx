@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import woodenSpoon from '../assets/wooden-spoon.webp';
 import styles from './Spoon.module.css';
 import { DraggableCore } from 'react-draggable';
 import { type boundaryType, type SpoonProps } from './types';
 import { createSpeedCalculator, limit } from './utils';
 
-export default function Spoon({ potRef, macaroniRef, stirringRef }: SpoonProps) {
+export default function Spoon({ potElement, macaroniRef, stirringRef }: SpoonProps) {
     //Refs
     const nodeRef = useRef<HTMLDivElement>(null);
     const spoonBoundaryRef = useRef<SVGPathElement>(null);
@@ -16,24 +16,24 @@ export default function Spoon({ potRef, macaroniRef, stirringRef }: SpoonProps) 
     const [ boundary, setBoundary ] = useState<boundaryType | null>(null);
 
     // effects
-    useEffect(() => {
-        if (potRef.current) {
-            const { left, top, width, height } = potRef.current.getBoundingClientRect();
+    useLayoutEffect(() => {
+        if (potElement !== null) {
+            const { left, top, width, height } = potElement.getBoundingClientRect();
             setBoundary({ width: width, top:top, left: left, height: height, center: [left + (width / 2), top + (height / 2)], radius: (width / 2) });
         }
-    }, [potRef.current])
+    }, [potElement]);
 
     useEffect(() =>{
         if (boundary !== null){
             const { height: spoonHeight } = nodeRef.current!.getBoundingClientRect();
             setPositionState({x: boundary.center[0], y: boundary.center[1] - spoonHeight}); // subtracts center.y by spoonHeight so that spoon bottom-left is at center of pot
         }
-    }, [boundary])
+    }, [boundary]);
 
     useEffect(() => {
         // Sets spoon's initial position on mount
         nodeRef.current!.style.translate = `${positionState.x}px ${positionState.y}px`;
-    }, [positionState])
+    }, [positionState]);
 
     return (
         <DraggableCore

@@ -1,8 +1,8 @@
 import pot from '../assets/pot.webp';
 import styles from './Pot.module.css';
-import type { potRefType } from './types';
+import type { PotProps } from './types';
 
-export default function Pot({ potRef }: potRefType) {
+export default function Pot({ potRef }: PotProps) {
     
     return (
         <div className={ styles.flex }>

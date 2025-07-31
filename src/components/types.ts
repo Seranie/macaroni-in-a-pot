@@ -1,7 +1,7 @@
 import type { RefObject } from "react";
 
-export interface potRefType {
-    potRef: RefObject<SVGPathElement | null>;
+export interface potElementType {
+    potElement: SVGPathElement | null;
 }
 
 export interface boundaryType {
@@ -18,4 +18,8 @@ export interface AudioProps {
     stirringRef: RefObject<HTMLAudioElement | null>;
 }
 
-export type SpoonProps = potRefType & AudioProps;
+export type SpoonProps = potElementType & AudioProps;
+
+export interface PotProps {
+    potRef: (node: SVGPathElement | null) => void;
+}
