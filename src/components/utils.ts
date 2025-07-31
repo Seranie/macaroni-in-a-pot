@@ -27,7 +27,7 @@ export function distance(dot1: Array<number>, dot2: Array<number>): number {
 export function createSpeedCalculator() {
     const MAX_SPEED = 20;
     const MIN_SPEED = 0;
-    const MAX_RATE = 3;
+    const MAX_RATE = 2;
     const MIN_RATE = 0.5;
 
     let smoothedSpeed = 0;
